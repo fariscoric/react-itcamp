@@ -28,6 +28,7 @@ export default function CryptoForm() {
             {
                 name:userData.name,
                 value:userData.value,
+                id:Math.random()
             },
         ])
     }
@@ -42,7 +43,7 @@ export default function CryptoForm() {
                 <label htmlFor='CryptoName'>Crypto Name</label>
                 <input type="text" defaultValue={userData.name} onChange={(event) => setUserData((prev) => ({...prev, name: event.target.value}))}></input>
                 <label htmlFor='CryptoValue'>Crypto Value</label>
-                <input type="value" Value={userData.value} onChange={(event) => setUserData((prev) => ({...prev, name: event.target.value}))}></input>
+                <input type="number" Value={userData.value} onChange={(event) => setUserData((prev) => ({...prev, value: event.target.value}))}></input>
                 <button type='submit' onClick={AddCr}>Add crypto value</button>
             </form>
             {crypto.map((el) => (
