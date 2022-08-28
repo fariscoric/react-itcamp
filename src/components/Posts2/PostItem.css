@@ -1,0 +1,19 @@
+.PostCard {
+    border: 1px solid black;
+    margin: 15px;
+    padding: 10px;
+    width: 1000px;
+    border-radius: 10px;
+    background-color: black;
+}
+
+.Title {
+    font-size: 30px;
+    font-weight: 700;
+    color: white;
+}
+
+.Desc {
+    font-size: 15px;
+    color: white;
+}
