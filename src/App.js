@@ -6,20 +6,28 @@ import Posts from './components/Posts/Posts'
 const BASE_URL = "https://api.quotable.io"
 export default function App() {
   const [authors , setAuthors] = useState([])
-  const [loading , setLoading] = useState(false)
+  const [loading , setLoading] = useState(true)
   const [pagination, setPagination] = useState({})
   const [page ,setPage] = useState(1)
 
   function getAuthors(page) {
-    axios.get(`${BASE_URL}/authors?sortBy=quoteCount&page=${page}`)
-    .then((res) => {
-      console.log(res.data.results)
-      setPagination({
-        page: res.data.page,
-        lastPage: res.data.totalPages
-      })
-      setAuthors(res.data.results)})
-
+    setLoading(true);
+    try {
+      axios
+        .get(`${BASE_URL}/authors?sortBy=quoteCount&page=${page}&limit=15`)
+        .then((res) => {
+          console.log(res.data);
+          setPagination({
+            page: res.data.page,
+            lastPage: res.data.totalPages,
+          });
+          setAuthors(res.data.results);
+        });
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -29,19 +37,24 @@ export default function App() {
   return (
     <div className='card-container'>
       
-      {authors.length > 0 ? (
+      Page {pagination.page} / {pagination.lastPage}
+      <button onClick={() => setPage((prev) => prev + 1)}>Next page </button>
+      {!loading ? (
         <div>
-          <div>{pagination.page} / {pagination.lastPage}</div>
-          <button onClick={() => setPage((prev) => prev + 1)}>Next</button>
-        {authors.map((author) => (
-          <div key={author._id}>
-          <h3>{author.name}</h3>
-          <h4>{author.description}</h4>
-          </div>
-        ))}
+          {authors.map((author) => (
+            <div key={author._id}>
+              <h4>{author.name}</h4>
+              <h5>{author.description}</h5>
+              <p>{author.bio}</p>
+              <p>Quoute count: {author.quoteCount}</p>
+              <hr />
+            </div>
+          ))}
         </div>
-      ) : ( <p>Loading...</p>
-        )}
+      ) : (
+        <p>Loading...</p>
+      )}
+      
     </div>
   )
 }
