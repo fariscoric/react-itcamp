@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-export default class PersonRemove extends React.Component {
+export default class PersonDelete extends React.Component {
   state = {
     id: ''
   }
