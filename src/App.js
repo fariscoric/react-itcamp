@@ -1,18 +1,35 @@
-import axios from 'axios'
-import React, { useState ,useEffect } from 'react'
-import './App.css'
-import NextUI from './components/NextUI/NextUI'
-import { Routes, Route, Link } from 'react-router-dom';
+import logo from './logo.svg';
+import './App.css';
+import React, { useState } from 'react'
+import { BrowserRouter as Router, Link, Route, Routes, UNSAFE_RouteContext } from 'react-router-dom'
+import Index from './components/pages/Index'
+import About from './components/pages/About'
+import { UserContext } from './components/UserContext'
+function App() {
 
-
-export default function App() {
+  const [value, setValue] = useState("initial value")
   return (
-    <div className='card-container'>
-      <h1>Welcome to React Router</h1>
-      <Routes>
-        <Route path="/" element={<h1>Home Page</h1>}/>
-        <Route path="about" element={<h1> About Page</h1>}/>
-      </Routes>
+  <Router>
+    <div className="App">
+      <nav>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/pages/">About</Link>
+          </li>
+        </ul>
+      </nav>
+  <UserContext.Provider value={{value , setValue}}>
+    <Routes>
+      <Route path="/" element={<Index />}/>
+      <Route path="/pages" element={<About />}/>
+    </Routes>
+  </UserContext.Provider>
     </div>
-  )
+  </Router>
+  );
 }
+
+export default App;
